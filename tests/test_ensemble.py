@@ -16,6 +16,7 @@ import pytest
 
 from fmu.ensemble import etc
 from fmu.ensemble import ScratchEnsemble, ScratchRealization
+from fmu.ensemble.common import use_concurrent
 
 try:
     SKIP_FMU_TOOLS = False
@@ -24,7 +25,7 @@ except ImportError:
     SKIP_FMU_TOOLS = True
 
 fmux = etc.Interaction()
-logger = fmux.basiclogger(__name__, level="WARNING")
+logger = fmux.basiclogger(__name__, level="INFO")
 
 if not fmux.testsetup():
     raise SystemExit()
@@ -753,7 +754,10 @@ def test_nonexisting():
 
 
 def test_eclsumcaching():
-    """Test caching of eclsum"""
+    """Test caching of eclsum, but only if we don't use concurrency"""
+
+    if use_concurrent():
+        pytest.skip("Not testing caching when we use concurrency")
 
     if "__file__" in globals():
         # Easen up copying test code into interactive sessions
