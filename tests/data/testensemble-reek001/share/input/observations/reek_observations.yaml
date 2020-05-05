@@ -1,4 +1,4 @@
-summary_vectors::
+summary_vectors:
   # Mandatory elements per entry: key and observations
   - key: WBP4:OP1
     comment: "Shut-in pressures converted from well head conditions" # This is a global comment regarding this set of observations
@@ -6,7 +6,7 @@ summary_vectors::
        # Mandatory elements per entry in ecl_vector observations: value, error, date
        - {value: 251, error: 4, date: 2001-01-01}
        - {value: 251, error: 10, date: 2002-01-01}
-       - {value: 251, error: 10, date: 2003-01-01, comment: First measurement after sensor drift correction} 
+       - {value: 251, error: 10, date: 2003-01-01, comment: First measurement after sensor drift correction}
   - key: WOPR:OP_1
     observations:
        - {value: 1500, error: 150, date: 2001-01-01}
@@ -26,19 +26,28 @@ summary_vectors::
     observations:
        - {value: 5820, error: 582, date: 2001-01-01}
        - {value: 5448, error: 100, date: 2002-01-01, comment: Good test point. Reek field alone on test separator}
-       - {value: 3166, error: 317, date: 2003-01-01} 
+       - {value: 3166, error: 317, date: 2003-01-01}
   - key: FGOR
     observations:
        - {value: 185, error: 5, date: 2001-01-01}
        - {value: 178, error: 10, date: 2002-01-01}
-       - {value: 180, error: 15, date: 2003-01-01} 
+       - {value: 180, error: 15, date: 2003-01-01}
   - key: FWCT
     observations:
        - {value: 0.15, error: 0.05, date: 2001-01-01}
        - {value: 0.48, error: 0.05, date: 2002-01-01}
        - {value: 0.72, error: 0.07, date: 2003-01-01}
 general_observations:
-  # Mandatory elements per entry: name, simulation_output, observations
+  - name: Breakthrough times
+    category: breakthroughtimes   # More generic? This is
+    observations:
+      # Error unit is days. Trigger is the value of the summary vector that defines the
+      # breakthrough.  Dates restrict the time interval for which the first date with
+      # summary value above trigger is searched for, optional.  smooth-days will add a
+      # rolling mean filter with the given number of days (use with care)
+      - {key: FWCT, value: 2001-09-01, trigger: 0.4, error: 10, min_date: 2001-01-01, max_date: 2003-01-01}
+      - {key: FWCT, value: 2000-02-01, trigger: 0.1, error: 3, min_date: 2000-01-01, max_date: 2003-01-01, smooth_days: 30}
+
   - name: RFT pressure OP_1
     category: rft_pressure # identifier for specialized post-processing/visualization software
     simulation_output: ./share/results/rft_op_1.yaml # Where the simulation output to compare with is created on scratch
