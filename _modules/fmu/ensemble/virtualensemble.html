@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>fmu.ensemble.virtualensemble &mdash; fmu-ensemble 1.2.5.dev3+g4a6f4c8 documentation</title>
+  <title>fmu.ensemble.virtualensemble &mdash; fmu-ensemble 1.2.4.dev1+g639ff54 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.2.5.dev3+g4a6f4c8
+                1.2.4.dev1+g639ff54
               </div>
             
           
@@ -188,7 +188,7 @@
     <span class="n">HAVE_PYARROW</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="n">fmux</span> <span class="o">=</span> <span class="n">Interaction</span><span class="p">()</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">fmux</span><span class="o">.</span><span class="n">basiclogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">fmux</span><span class="o">.</span><span class="n">basiclogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="VirtualEnsemble"><a class="viewcode-back" href="../../../fmu.ensemble.html#fmu.ensemble.virtualensemble.VirtualEnsemble">[docs]</a><span class="k">class</span> <span class="nc">VirtualEnsemble</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -975,15 +975,13 @@
             <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
             <span class="k">if</span> <span class="s2">&quot;unsmry&quot;</span> <span class="ow">in</span> <span class="n">x</span>
         <span class="p">]</span>
-        <span class="c1"># If time_index is None, load_smry in ScratchEnsemble stores as &quot;raw&quot;</span>
-        <span class="k">if</span> <span class="n">time_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">time_index</span> <span class="o">=</span> <span class="s2">&quot;raw&quot;</span>
+
         <span class="k">if</span> <span class="p">(</span>
             <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">time_index</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">available_smry</span>
-        <span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="c1"># Suboptimal code, we always pick the finest available</span>
             <span class="c1"># time resolution:</span>
-            <span class="n">priorities</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="s2">&quot;daily&quot;</span><span class="p">,</span> <span class="s2">&quot;weekly&quot;</span><span class="p">,</span> <span class="s2">&quot;monthly&quot;</span><span class="p">,</span> <span class="s2">&quot;yearly&quot;</span><span class="p">,</span> <span class="s2">&quot;custom&quot;</span><span class="p">]</span>
+            <span class="n">priorities</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="s2">&quot;daily&quot;</span><span class="p">,</span> <span class="s2">&quot;monthly&quot;</span><span class="p">,</span> <span class="s2">&quot;weekly&quot;</span><span class="p">,</span> <span class="s2">&quot;yearly&quot;</span><span class="p">,</span> <span class="s2">&quot;custom&quot;</span><span class="p">]</span>
             <span class="c1"># (could also sort them by number of rows, or we could</span>
             <span class="c1">#  even merge them all)</span>
             <span class="c1"># (could have priorities as a dict, for example so we</span>
