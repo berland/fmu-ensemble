@@ -1783,6 +1783,9 @@ def normalize_dates(start_date, end_date, freq):
             end_date = end_date.replace(
                 day=1, month=1
             ) + dateutil.relativedelta.relativedelta(years=1)
+    elif freq == "weekly":
+        # This we don't need to normalize, but we should not give any warnings
+        pass
     elif freq == "daily":
         # This we don't need to normalize, but we should not give any warnings
         pass

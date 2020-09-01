@@ -500,7 +500,7 @@ class VirtualRealization(object):
             return [end_date.date()]
         if freq in ("custom", "raw"):
             return available_dates
-        pd_freq_mnenomics = {"monthly": "MS", "yearly": "YS", "daily": "D"}
+        pd_freq_mnenomics = {"monthly": "MS", "yearly": "YS", "daily": "D", "weekly": "W"}
         if normalize:
             raise NotImplementedError
             # (start_date, end_date) = normalize_dates(start_date, end_date,

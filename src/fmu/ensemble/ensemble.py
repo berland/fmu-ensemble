@@ -1061,7 +1061,14 @@ class ScratchEnsemble(object):
         start_smry = min([min(x) for x in eclsumsdates])
         end_smry = max([max(x) for x in eclsumsdates])
 
-        pd_freq_mnenomics = {"monthly": "MS", "yearly": "YS", "daily": "D"}
+        # Offset strings in Pandas:
+        # https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects
+        pd_freq_mnenomics = {
+            "monthly": "MS",
+            "yearly": "YS",
+            "daily": "D",
+            "weekly": "W",
+        }
 
         (start_n, end_n) = normalize_dates(start_smry.date(), end_smry.date(), freq)
 

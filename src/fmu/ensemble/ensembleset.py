@@ -705,7 +705,7 @@ class EnsembleSet(object):
         # ensemble object.
         start_date = min(rawdates)
         end_date = max(rawdates)
-        pd_freq_mnenomics = {"monthly": "MS", "yearly": "YS", "daily": "D"}
+        pd_freq_mnenomics = {"monthly": "MS", "yearly": "YS", "daily": "D", "weekly": "W"}
         if freq not in pd_freq_mnenomics:
             raise ValueError("Requested frequency %s not supported" % freq)
         datetimes = pd.date_range(start_date, end_date, freq=pd_freq_mnenomics[freq])

@@ -385,6 +385,7 @@ def test_ensemble_ecl():
     assert len(reekensemble.get_smry_dates(freq="raw")) == 641
     assert len(reekensemble.get_smry_dates(freq="yearly")) == 5
     assert len(reekensemble.get_smry_dates(freq="monthly")) == 38
+    assert len(reekensemble.get_smry_dates(freq="weekly")) == 157
     assert len(reekensemble.get_smry_dates(freq="daily")) == 1098
     assert len(reekensemble.get_smry_dates(freq="first")) == 1
     assert len(reekensemble.get_smry_dates(freq="last")) == 1
