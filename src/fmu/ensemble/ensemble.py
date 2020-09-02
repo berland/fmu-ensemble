@@ -23,6 +23,7 @@ from .virtualrealization import VirtualRealization
 from .virtualensemble import VirtualEnsemble
 from .ensemblecombination import EnsembleCombination
 from .realization import parse_number
+from .common import PD_FREQ_MNEMONICS
 
 xfmu = Interaction()
 logger = xfmu.functionlogger(__name__)
@@ -1061,15 +1062,6 @@ class ScratchEnsemble(object):
         start_smry = min([min(x) for x in eclsumsdates])
         end_smry = max([max(x) for x in eclsumsdates])
 
-        # Offset strings in Pandas:
-        # https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects
-        pd_freq_mnenomics = {
-            "monthly": "MS",
-            "yearly": "YS",
-            "daily": "D",
-            "weekly": "W",
-        }
-
         (start_n, end_n) = normalize_dates(start_smry.date(), end_smry.date(), freq)
 
         if not start_date and not normalize:
@@ -1086,10 +1078,10 @@ class ScratchEnsemble(object):
         else:
             end_date_range = end_date
 
-        if freq not in pd_freq_mnenomics:
+        if freq not in PD_FREQ_MNEMONICS:
             raise ValueError("Requested frequency %s not supported" % freq)
         datetimes = pd.date_range(
-            start_date_range, end_date_range, freq=pd_freq_mnenomics[freq]
+            start_date_range, end_date_range, freq=PD_FREQ_MNEMONICS[freq]
         )
         # Convert from Pandas' datetime64 to datetime.date:
         datetimes = [x.date() for x in datetimes]

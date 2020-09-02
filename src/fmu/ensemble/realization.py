@@ -32,6 +32,7 @@ from ecl import EclFileFlagEnum
 from .etc import Interaction
 from .virtualrealization import VirtualRealization
 from .realizationcombination import RealizationCombination
+from  .common import PD_FREQ_MNEMONICS
 
 HAVE_ECL2DF = False
 try:
@@ -1762,39 +1763,17 @@ def normalize_dates(start_date, end_date, freq):
     Args:
         start_date: datetime.date
         end_date: datetime.date
-        freq: string with either 'monthly' or 'yearly'.
-            Anything else will return the input as is
+        freq: string with either 'monthly', 'yearly',
+            'weekly' or any other frequency offset
+            accepted by Pandas.
+
     Return:
         Tuple of normalized (start_date, end_date)
     """
-
-    if freq == "monthly":
-        start_date = start_date.replace(day=1)
-
-        # Avoid rolling forward if we are already at day 1 in a month
-        if end_date != end_date.replace(day=1):
-            end_date = end_date.replace(day=1) + dateutil.relativedelta.relativedelta(
-                months=1
-            )
-    elif freq == "yearly":
-        start_date = start_date.replace(day=1, month=1)
-        # Avoid rolling forward if we are already at day 1 in a year
-        if end_date != end_date.replace(day=1, month=1):
-            end_date = end_date.replace(
-                day=1, month=1
-            ) + dateutil.relativedelta.relativedelta(years=1)
-    elif freq == "weekly":
-        # This we don't need to normalize, but we should not give any warnings
-        pass
-    elif freq == "daily":
-        # This we don't need to normalize, but we should not give any warnings
-        pass
-    elif freq == "first" or freq == "last":
-        # This we don't need to normalize, but we should not give any warnings
-        pass
-    else:
-        logger.warning("Unrecognized frequency %s for date normalization", str(freq))
-    return (start_date, end_date)
+    if freq in PD_FREQ_MNEMONICS:
+        freq = PD_FREQ_MNEMONICS[freq]
+    offset = pd.tseries.frequencies.to_offset(freq)
+    return (offset.rollback(start_date), offset.rollforward(end_date))
 
 
 def flatten(dictionary, parent_key="", sep="_"):

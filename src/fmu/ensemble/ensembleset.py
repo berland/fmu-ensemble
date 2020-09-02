@@ -13,6 +13,7 @@ import pandas as pd
 
 from .etc import Interaction
 from .ensemble import ScratchEnsemble, VirtualEnsemble
+from .realization import PD_FREQ_MNEMONICS
 
 xfmu = Interaction()
 logger = xfmu.functionlogger(__name__)
@@ -705,10 +706,9 @@ class EnsembleSet(object):
         # ensemble object.
         start_date = min(rawdates)
         end_date = max(rawdates)
-        pd_freq_mnenomics = {"monthly": "MS", "yearly": "YS", "daily": "D", "weekly": "W"}
-        if freq not in pd_freq_mnenomics:
+        if freq not in PD_FREQ_MNEMONICS:
             raise ValueError("Requested frequency %s not supported" % freq)
-        datetimes = pd.date_range(start_date, end_date, freq=pd_freq_mnenomics[freq])
+        datetimes = pd.date_range(start_date, end_date, freq=PD_FREQ_MNEMONICS[freq])
         # Convert from Pandas' datetime64 to datetime.date:
         return [x.date() for x in datetimes]
 

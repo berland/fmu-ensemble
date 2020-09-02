@@ -11,6 +11,7 @@ import numpy as np
 
 from .etc import Interaction
 
+from .common import PD_FREQ_MNEMONICS
 from .realizationcombination import RealizationCombination
 
 fmux = Interaction()
@@ -500,14 +501,13 @@ class VirtualRealization(object):
             return [end_date.date()]
         if freq in ("custom", "raw"):
             return available_dates
-        pd_freq_mnenomics = {"monthly": "MS", "yearly": "YS", "daily": "D", "weekly": "W"}
         if normalize:
             raise NotImplementedError
             # (start_date, end_date) = normalize_dates(start_date, end_date,
             #                                         freq)
-        if freq not in pd_freq_mnenomics:
+        if freq not in PD_FREQ_MNEMONICS:
             raise ValueError("Requested frequency %s not supported" % freq)
-        datetimes = pd.date_range(start_date, end_date, freq=pd_freq_mnenomics[freq])
+        datetimes = pd.date_range(start_date, end_date, freq=PD_FREQ_MNEMONICS[freq])
         # Convert from Pandas' datetime64 to datetime.date:
         return [x.date() for x in datetimes]
 
